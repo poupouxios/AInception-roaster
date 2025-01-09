@@ -1,0 +1,42 @@
+services:
+  cacao-roaster-app:
+    container_name: ${COMPOSE_PROJECT_NAME}_app
+    build: .
+    volumes:
+      - ../code/:/application/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_app.rule=Host(`cacao-roaster.${COMPOSE_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_app.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_app.tls=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_app.loadbalancer.server.port=443"
+    networks:
+      - default
+
+  cacao-roaster-traefik:
+    container_name: ${COMPOSE_PROJECT_NAME}_traefik
+    image: traefik:v2.0.2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/tls.yml:/etc/traefik/tls.yml
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+      - cacao-roaster-certs:/etc/ssl/traefik
+
+  reverse-proxy-https-helper:
+    image: alpine
+    command: sh -c "cd /etc/ssl/traefik
+      && wget traefik.me/cert.pem -O cert.pem
+      && wget traefik.me/privkey.pem -O privkey.pem"
+    volumes:
+      - cacao-roaster-certs:/etc/ssl/traefik
+
+volumes:
+  cacao-roaster-certs:
+
+networks:
+  default:
+    name: ${COMPOSE_NETWORK_NAME}_code
+    external: true

@@ -6,3 +6,5 @@ node_modules
 Dockerfile
 .dockerignore
 .prettierrc
+.vscode
+.idea

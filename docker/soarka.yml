@@ -1,0 +1,53 @@
+services:
+  cacao-roaster-soarka:
+    container_name: ${COMPOSE_PROJECT_NAME}_soarka
+    image: cossas/soarca:latest
+    environment:
+      PORT: 8080
+      GIN_MODE: "release"
+      MONGODB_URI: "mongodb://cacao-roaster-soarka-mongodb:27017"
+      DATABASE_NAME: "soarca"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "test1234!"
+      DATABASE: 'true'
+      PLAYBOOK_API_LOG_LEVEL: trace
+      LOG_GLOBAL_LEVEL: "trace"
+      LOG_MODE: "production"
+      LOG_FILE_PATH: ""
+      LOG_FORMAT: "json"
+      ENABLE_FINS: false
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_soarka.rule=Host(`cacao-roaster-soarka.${COMPOSE_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_soarka.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_soarka.tls=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_soarka.loadbalancer.server.port=8080"
+
+  cacao-roaster-soarka-mongodb:
+    image: mongo:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_mongo_soarca
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "test1234!"
+    volumes:
+      - ./mongo_db:/data/db
+
+  cacao-roaster-webshell-exploit:
+    build:
+      context: .
+      dockerfile: Dockerfile.webshell
+    container_name: ${COMPOSE_PROJECT_NAME}_webshell
+    hostname: webshell-exploit.hack
+    environment:
+        PORT: 8081
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.rule=Host(`cacao-roaster-webshell-exploit.${COMPOSE_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.tls=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_webshell.loadbalancer.server.port=80"
+
+networks:
+  default:
+    name: ${COMPOSE_NETWORK_NAME}_code
+    external: true

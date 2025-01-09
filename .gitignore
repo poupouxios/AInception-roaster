@@ -1,9 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+code/node_modules
+code/.pnp
+code/.pnp.js
 /dist
 
 # testing
@@ -13,14 +13,16 @@
 /build
 
 # misc
-.DS_Store
+code/.DS_Store
 **/.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+code/.env.local
+code/.env.development.local
+code/.env.test.local
+code/.env.production.local
 .vscode
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+code/npm-debug.log*
+code/yarn-debug.log*
+code/yarn-error.log*
+
+docker/mongo_db

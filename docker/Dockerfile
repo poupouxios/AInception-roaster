@@ -1,0 +1,9 @@
+FROM node:21.6-alpine3.19
+
+WORKDIR /application
+
+USER node
+
+EXPOSE 3000
+
+CMD [ "npm", "start"]

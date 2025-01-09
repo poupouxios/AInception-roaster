@@ -8,29 +8,26 @@
 
 These instructions will get you a copy of the project up and running on your local machine for development purposes. See deployment for notes on how to deploy the project on a live system.
 
-Prerequisites:
-
--   node >= 20.5.0
--   npm >= 9.8.0
-
 ## Installation
 
-```
-npm i
-```
+- Make sure you have [Docker](https://www.docker.com/) installed on your PC.
+- The first command after you clone the project is to build the node modules. The docker command is `docker run -it -v ./code:/application node:21.6-alpine3.19 /bin/sh -c "cd /application && npm install"`. Make sure to be on the root of the cloned repository in order to find the `code` folder to mount.
+- If the above command finishes successfully, navigate to docker folder and do `docker compose up -d`. This will build the whole project and run it locally.
 
-**Run the project locally (in development mode)**
+When you are done with the above, the below URLs will be available:
 
-```
-npm run start
-```
+| Name          | URL                            |
+| ------------- | ------------------------------ |
+| Cacao Roaster UI       | https://cacao-roaster.traefik.me/   |
+| Soarca       | https://cacao-roaster-soarka.traefik.me/   |
+| Webshell For a POC         | https://cacao-roaster-webshell-exploit.traefik.me/         |
 
-The CACAO Roaster will run locally on: http://localhost:3000/
 
 **Building the project for production**
 
+Use the below docker command to build it for production:
 ```
-npm run build
+docker run -it -v ./code:/application node:21.6-alpine3.19 /bin/sh -c "cd /application && npm run build
 ```
 
 ## Deployment

@@ -6,7 +6,8 @@
         "prepare": "husky install",
         "prettier": "prettier '**/*.{js,ts}' --write",
         "start": "webpack-dev-server --config webpack.dev.js",
-        "build": "webpack --config webpack.prod.js"
+        "build": "webpack --config webpack.prod.js",
+        "lint": "eslint . --ext .ts"
     },
     "lint-staged": {
         "**/*.{js,ts}": [
@@ -22,10 +23,12 @@
     "description": "A web application for parsing, manipulating, visualizing, signing and countersigning CACAO v2.0 playbooks.",
     "devDependencies": {
         "@biomejs/biome": "1.8.3",
-        "@typescript-eslint/eslint-plugin": "^6.19.0",
+        "@typescript-eslint/eslint-plugin": "^6.21.0",
+        "@typescript-eslint/parser": "^6.21.0",
         "clean-webpack-plugin": "^4.0.0",
         "dotenv": "^16.4.5",
         "dotenv-webpack": "^8.1.0",
+        "eslint": "^8.57.1",
         "html-webpack-plugin": "^5.5.1",
         "husky": "^8.0.3",
         "lint-staged": "^15.2.0",

@@ -4,4 +4,8 @@ const webpackCommon = require('./webpack.common');
 module.exports = {
   ...webpackCommon,
   mode: 'production',
+  port: 443,
+  allowedHosts: [
+    '.traefik.me',
+  ]
 };

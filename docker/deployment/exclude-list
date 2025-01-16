@@ -1,7 +1,5 @@
 .editorconfig
 .env
-package.json
-package-lock.json
 node_modules
 playbook_examples
 biome.json

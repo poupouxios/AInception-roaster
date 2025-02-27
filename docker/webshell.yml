@@ -1,0 +1,22 @@
+services:
+  automaton-webshell-exploit:
+    build:
+      context: .
+      dockerfile: Dockerfile.webshell
+    container_name: ${COMPOSE_PROJECT_NAME}_webshell
+    hostname: webshell-exploit.hack
+    environment:
+        PORT: 8081
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.rule=Host(`dev-exploit.${COMPOSE_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.service=automaton_webshell"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_webshell.tls=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_webshell.loadbalancer.server.port=80"
+    networks:
+      - web
+networks:
+  web:
+    name: ${COMPOSE_NETWORK_NAME}
+    external: true 
